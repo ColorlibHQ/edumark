@@ -35,18 +35,6 @@ $panels = array(
 
 
 $sections = array(
-
-    /**
-     * General Section
-     */
-    array(
-        'id'   => 'edumark_general_section',
-        'args' => array(
-            'title'    => esc_html__( 'General', 'edumark' ),
-            'panel'    => 'edumark_theme_options_panel',
-            'priority' => 1,
-        ),
-    ),
     
     /**
      * Header Section

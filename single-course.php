@@ -19,173 +19,198 @@ if( ! defined( 'ABSPATH' ) ) {
     $currentUserId = '';
  }
 
+//  Course meta
+ function edumark_course_meta( $id = '' ){
+    $prefix = 'course_group_';
+    $value = get_post_meta( get_the_ID(), $id, true );
+    return $value;
+}
+//  Course rating
+ function edumark_course_rating( $rating = 5 ){
+    for ( $i = 1; $i <= $rating; $i++ ) {
+        echo '<i class="flaticon-mark-as-favorite-star"></i>';
+    }
+}
+
 // Call Header
 get_header();
     if( function_exists( 'edumark_set_post_views' ) ){
         edumark_set_post_views( get_the_ID() );
     }
     
-    if( have_posts() ){ ?>
+    if( have_posts() ){
+        while( have_posts() ){
+        the_post();
+        $args = array(
+            'post_id' => get_the_ID(),
+        );
+        $reviews = get_comments( $args );
+        $reviewCount = is_array( $reviews ) ?  count( $reviews ) : '';
+        
+        $courseFeeRegular = edumark_course_meta('course_fee_regular');
+        $courseFeeDiscount = edumark_course_meta('course_fee_discount');
+        $courseRating = edumark_course_meta('total_rating');
+        $totalVideos = edumark_course_meta('total_videos');
+        $courseDuration = edumark_course_meta('course_duration');
+        $popupVieoUrl = edumark_course_meta('highlight_video_url');
+        $courseEnrollUrl = edumark_course_meta('course_enroll');
+    ?>  
+    
+    <!-- bradcam_area_start -->
+    <div class="courses_details_banner">
+         <div class="container">
+             <div class="row">
+                 <div class="col-xl-6">
+                     <div class="course_text">
+                            <h3><?php the_title()?></h3>
+                            <div class="prise">
+                                <span class="inactive"><?php echo esc_html($courseFeeRegular)?></span>
+                                <span class="active"><?php echo esc_html($courseFeeDiscount)?></span>
+                            </div>
+                            <?php
+                                if ( $courseRating ) {
+                                    ?>
+                                    <div class="rating">
+                                        <?php edumark_course_rating($courseRating)?>
+                                        <span>(<?php echo esc_html($courseRating)?>)</span>
+                                    </div>
+                                    <?php
+                                }
+                            ?>
+                            <div class="hours">
+                                <div class="video">
+                                     <div class="single_video">
+                                            <i class="fa fa-clock-o"></i> <span><?php echo esc_html($totalVideos)?></span>
+                                     </div>
+                                     <div class="single_video">
+                                            <i class="fa fa-play-circle-o"></i> <span><?php echo esc_html($courseDuration)?></span>
+                                     </div>
+                                   
+                                </div>
+                            </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+    </div>
+    <!-- bradcam_area_end -->
 
     <!--================ Start Course Details Area =================-->
-    <section class="course_details_area section_padding">
+    <div class="courses_details_info">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 course_details_left">
-                    <?php
-                        if( has_post_thumbnail() ){ ?>
-                            <div class="main_image">
-                                <?php the_post_thumbnail( 'edumark_single_blog_750x375', array( 'class' => 'img-fluid' ) )?>
-                            </div>
-                            <?php                            
-                        }
-                    ?>
-
-                    <div class="content_wrapper">
-                        <h4 class="title_top"><?php echo esc_html__( 'Objectives', 'edumark' ); ?></h4>
-                        <div class="content">
-                            <?php 
-                                while( have_posts() ){
-                                    the_post();
-                                    the_content();
-                                }
-
-                                $args = array(
-                                    'post_id' => get_the_ID(),
-                                );
-                                $reviews = get_comments( $args );
-                                $reviewCount = is_array( $reviews ) ?  count( $reviews ) : '';
-                            ?>   
-                        </div>
-
-                        <h4 class="title"><?php echo esc_html__( 'Eligibility', 'edumark' ); ?></h4>
-                        <div class="content">
+                <div class="col-xl-7 col-lg-7">
+                    <div class="single_courses">
+                        <h3><?php echo esc_html__( 'Objectives', 'edumark' ); ?></h3>
+                        <?php the_content()?>
+                        <h3 class="second_title"><?php echo esc_html__( 'Course Outline', 'edumark' ); ?></h3>
+                    </div>
+                    <div class="outline_courses_info">
+                        <div id="accordion">
                             <?php
-                                $eligibility = get_post_meta( get_the_ID(), 'course_eligibility', true );
-                                if( !empty( $eligibility ) ){
-                                    echo wp_kses_post( $eligibility );
+                            $outlines = get_post_meta( get_the_ID(), 'course_outlines', true );
+                            if( ! empty( $outlines ) ){
+                                foreach( $outlines as $key => $value ){
+                                    // $key++;
+                                    ?>
+                                    <div class="card">
+                                        <div class="card-header" id="heading<?=esc_attr( $key )?>">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse<?=esc_attr( $key )?>" aria-expanded="false" aria-controls="collapse<?=esc_attr( $key )?>">
+                                                    <i class="flaticon-question"></i> <?=esc_html( $value['lesson_title'] )?>
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div id="collapse<?=esc_attr( $key )?>" class="collapse" aria-labelledby="heading<?=esc_attr( $key )?>" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <?=esc_html( $value['lesson_text'] )?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
                                 }
-                            ?> 
-                        </div>
-
-                        <h4 class="title"><?php echo esc_html__( 'Course Outline', 'edumark' ); ?></h4>
-                        <div class="content">
-                            <ul class="course_list">
-                                <?php
-                                    $outlines = get_post_meta( get_the_ID(), 'course_outlines', true );
-                                    if( ! empty( $outlines ) ){
-                                        foreach( $outlines as $outline ){
-                                            echo '<li class="justify-content-between align-items-center d-flex">';
-                                            echo '<p>'. $outline['lesson_title'] .'</p>';
-                                            echo '<a class="btn_2 text-uppercase" href="'. esc_url( $outline['outline_btn_url'] ) .'">'.esc_html__( 'View Details', 'edumark' ).'</a>';
-                                            echo '</li>';
-                                            
-                                        }
-                                    }
-                                ?>
-                            </ul>
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="col-lg-4 right-contents">
-                    <div class="sidebar_top">
-                        <ul>
+                <div class="col-xl-5 col-lg-5">
+                    <div class="courses_sidebar">
+                        <div class="video_thumb">
                             <?php
-                            $trainer = get_post_meta( get_the_ID(), 'course_trainer', true );
-                            $courseFee = get_post_meta( get_the_ID(), 'course_fee', true );
-                            $courseSeat = get_post_meta( get_the_ID(), 'course_seat', true );
-                            $courseSchedule = get_post_meta( get_the_ID(), 'course_schedule', true );
-
-                            if( ! empty( $trainer ) ){ ?>
-                                <li>
-                                    <span class="justify-content-between d-flex" >
-                                        <p><?php echo esc_html__('Trainer’s Name', 'edumark') ?></p> 
-                                        <span class="or"><?php echo esc_html( $trainer ) ?></span>
-                                    </span>
-                                </li>
-                                <?php
-                            }
-                            if( ! empty( $courseFee ) ){ ?>
-                                 <li>
-                                    <span class="justify-content-between d-flex" >
-                                        <p><?php echo esc_html__('Course Fee', 'edumark') ?> </p>
-                                        <span><?php echo esc_html( $courseFee ) ?></span>
-                                    </span>
-                                </li>
+                                if( has_post_thumbnail() ){
+                                    the_post_thumbnail( 'edumark_course_single_thumb_460x460', array( 'alt' => get_the_title() ) );                 
+                                }
+                            ?>
+                            <a class="popup-video" href="<?php echo esc_url( $popupVieoUrl )?>">
+                                <i class="fa fa-play"></i>
+                            </a>
+                        </div>
+                        <div class="author_info">
                             <?php
-                            }
-                            if( ! empty( $courseSeat ) ){ ?>
-                                <li>
-                                    <span class="justify-content-between d-flex" >
-                                        <p><?php echo esc_html__('Available Seats', 'edumark') ?> </p>
-                                        <span><?php echo esc_html( $courseSeat ) ?></span>
-                                    </span>
-                                </li>
-                            <?php
-                            }
-                            if( ! empty( $courseSchedule ) ){ ?>
-                                <li>
-                                    <span class="justify-content-between d-flex" >
-                                        <p><?php echo esc_html__('Schedule', 'edumark') ?></p>
-                                        <span><?php echo esc_html( $courseSchedule ) ?></span>
-                                    </span>
-                                </li>
-                            <?php
-                            } ?>                            
-                        </ul>
-                        <?php
-                        $course_enroll = get_post_meta( get_the_ID(), 'course_enroll', true );
-                        ?>
-                        <a href="<?php echo esc_url( $course_enroll ) ?>" class="btn_1 d-block"><?php echo esc_html__( 'Enroll the course', 'edumark' ) ?></a>
-                    </div>
-
-                    <h4 class="title"><?php echo esc_html__( 'Reviews', 'edumark' ); ?></h4>
-                    <div class="content">
-                        <div class="review-top row pt-40">
-                            <div class="col-lg-12">
-                                <h6 class="mb-15"><?php echo esc_html__( 'Provide Your Rating', 'edumark' ); ?></h6>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <span><?php echo esc_html__( 'Quality', 'edumark' ); ?></span>
-                                    <div class='rating-stars text-center'>
-                                        <ul id='stars'>
-                                        <li class='star' title='Poor' data-value='1'>
-                                            <i class='fa fa-star fa-fw'></i>
-                                        </li>
-                                        <li class='star' title='Fair' data-value='2'>
-                                            <i class='fa fa-star fa-fw'></i>
-                                        </li>
-                                        <li class='star' title='Good' data-value='3'>
-                                            <i class='fa fa-star fa-fw'></i>
-                                        </li>
-                                        <li class='star' title='Excellent' data-value='4'>
-                                            <i class='fa fa-star fa-fw'></i>
-                                        </li>
-                                        <li class='star' title='WOW!!!' data-value='5'>
-                                            <i class='fa fa-star fa-fw'></i>
-                                        </li>
-                                        </ul>
-                                    </div>
-                                    <div class='success-box text-right'>
-                                        <div class='text-message'><span><?php echo esc_html__( 'N/A', 'edumark' ); ?></span></div>
-                                    </div>
+                                $trainer_img =  get_post_meta( get_the_ID(), 'course_trainer_img', 1 );
+                                $trainer_name = get_post_meta( get_the_ID(), 'course_trainer', 1 );
+                                $trainer_designation = get_post_meta( get_the_ID(), 'trainers_designation', 1 );
+                                $trainer_text = get_post_meta( get_the_ID(), 'trainers_text', 1 );
+                            ?>
+                            <div class="auhor_header">
+                                <div class="thumb">
+                                    <?php
+                                        if( $trainer_img ) {
+                                            echo '<img src="'.esc_url($trainer_img).'">';
+                                        }
+                                    ?>
+                                </div>
+                                <div class="name">
+                                    <h3><?=esc_html( $trainer_name )?></h3>
+                                    <p><?=esc_html( $trainer_designation )?></p>
                                 </div>
                             </div>
+                            <p class="text_info"><?=wp_kses_post( $trainer_text )?></p>
+                            <ul>
+                                <li><a href="#"> <i class="fa fa-envelope"></i> </a></li>
+                                <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
+                                <li><a href="#"> <i class="ti-linkedin"></i> </a></li>
+                            </ul>
                         </div>
-                        <div class="feedeback">
-                            <h6><?php echo esc_html__( 'Your Feedback', 'edumark' ); ?></h6>
-                            <form action="#" method="post" id="reviw_submit" >
-                                <textarea name="feedback" id="feedback" class="form-control" cols="10" rows="10"></textarea>
+                        <a href="<?php echo esc_url( $courseEnrollUrl )?>" class="boxed_btn">Buy Course</a>
+                        <div class="feedback_info">
+                            <h3>Write your feedback</h3>
+                            <p>Your rating</p>
+                            <div class='rating-stars text-center'>
+                                <ul id='stars'>
+                                    <li class='star' title='Poor' data-value='1'>
+                                        <i class='flaticon-mark-as-favorite-star'></i>
+                                    </li>
+                                    <li class='star' title='Fair' data-value='2'>
+                                        <i class='flaticon-mark-as-favorite-star'></i>
+                                    </li>
+                                    <li class='star' title='Good' data-value='3'>
+                                        <i class='flaticon-mark-as-favorite-star'></i>
+                                    </li>
+                                    <li class='star' title='Excellent' data-value='4'>
+                                        <i class='flaticon-mark-as-favorite-star'></i>
+                                    </li>
+                                    <li class='star' title='WOW!!!' data-value='5'>
+                                        <i class='flaticon-mark-as-favorite-star'></i>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class='success-box text-right'>
+                                <div class='text-message'><span><?php echo esc_html__( 'N/A', 'edumark' ); ?></span></div>
+                            </div>
+                            
+                            <form action="#" method="post" id="reviw_submit">
+                                <textarea name="feedback" id="feedback" placeholder="Write your feedback" cols="30" rows="10"></textarea>
                                 <input type="hidden" name="ratingvalue" id="ratingvalue" >
                                 <input type="hidden" id="reviewajax" value="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ) ?>" >
                                 <input type="hidden" name="userid" id="userid" value="<?php echo absint( $currentUserId ) ?>" >
                                 <input type="hidden" name="postid" id="postid" value="<?php echo absint( get_the_ID() ); ?>" >
-                                <div class="mt-10 text-right">
-                                    <button type="submit" name="subpost" class="btn_1"><?php echo esc_html__( 'Submit', 'edumark' ); ?></button>
-                                </div>
+                                <button type="submit" name="subpost" class="boxed_btn"><?php echo esc_html__( 'Submit', 'edumark' ); ?></button>
                             </form>
                         </div>
+
                         <div class="comments-area mb-30">
                             <?php 
                             if( $reviewCount > 0 ){
@@ -232,11 +257,10 @@ get_header();
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <!--================ End Course Details Area =================-->
-
-
-<?php
+    <?php
+    }
     }
 // Call Footer
 get_footer();

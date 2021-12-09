@@ -1,317 +1,426 @@
 (function ($) {
-"use strict";
-// TOP Menu Sticky
-$(window).on('scroll', function () {
-	var scroll = $(window).scrollTop();
-	if (scroll < 400) {
-    $("#sticky-header").removeClass("sticky");
-    $('#back-top').fadeIn(500);
-	} else {
-    $("#sticky-header").addClass("sticky");
-    $('#back-top').fadeIn(500);
-	}
-});
-
-
-$(document).ready(function(){
-
-// mobile_menu
-var menu = $('ul#navigation');
-if(menu.length){
-	menu.slicknav({
-		prependTo: ".mobile_menu",
-		closedSymbol: '+',
-		openedSymbol:'-'
-	});
-};
-// blog-menu
-  // $('ul#blog-menu').slicknav({
-  //   prependTo: ".blog_menu"
-  // });
-
-
-
-// review-active
-$('.testmonial_active').owlCarousel({
-  loop:true,
-  margin:0,
-items:1,
-autoplay:true,
-navText:['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
-  nav:true,
-dots:false,
-autoplayHoverPause: true,
-autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          dots:false,
-          nav:false,
-      },
-      767:{
-          items:1,
-          dots:false,
-          nav:false,
-      },
-      992:{
-          items:1,
-          nav:false
-      },
-      1200:{
-          items:1,
-          nav:false
-      },
-      1500:{
-          items:1
-      }
-  }
-});
-
-// for filter
-  // init Isotope
-  var $grid = $('.grid').isotope({
-    itemSelector: '.grid-item',
-    percentPosition: true,
-    masonry: {
-      // use outer width of grid-sizer for columnWidth
-      columnWidth: 1
+  "use strict";
+  // TOP Menu Sticky
+  $(window).on('scroll', function () {
+    var scroll = $(window).scrollTop();
+    if (scroll < 400) {
+      $("#sticky-header").removeClass("sticky");
+      $('#back-top').fadeIn(500);
+    } else {
+      $("#sticky-header").addClass("sticky");
+      $('#back-top').fadeIn(500);
     }
   });
 
-  // filter items on button click
-  $('.portfolio-menu').on('click', 'button', function () {
-    var filterValue = $(this).attr('data-filter');
-    $grid.isotope({ filter: filterValue });
-  });
 
-  //for menu active class
-  $('.portfolio-menu button').on('click', function (event) {
-    $(this).siblings('.active').removeClass('active');
-    $(this).addClass('active');
-    event.preventDefault();
-	});
-  
-  // wow js
-  new WOW().init();
+  $(document).ready(function () {
 
-  // counter 
-  $('.counter').counterUp({
-    delay: 10,
-    time: 10000
-  });
-
-/* magnificPopup img view */
-$('.popup-image').magnificPopup({
-	type: 'image',
-	gallery: {
-	  enabled: true
-	}
-});
-
-/* magnificPopup img view */
-$('.img-pop-up').magnificPopup({
-	type: 'image',
-	gallery: {
-	  enabled: true
-	}
-});
-
-/* magnificPopup video view */
-$('.popup-video').magnificPopup({
-	type: 'iframe'
-});
+    // mobile_menu
+    var menu = $('ul#navigation');
+    if (menu.length) {
+      menu.slicknav({
+        prependTo: ".mobile_menu",
+        closedSymbol: '+',
+        openedSymbol: '-'
+      });
+    };
+    // blog-menu
+    // $('ul#blog-menu').slicknav({
+    //   prependTo: ".blog_menu"
+    // });
 
 
-  // scrollIt for smoth scroll
-  $.scrollIt({
-    upKey: 38,             // key code to navigate to the next section
-    downKey: 40,           // key code to navigate to the previous section
-    easing: 'linear',      // the easing function for animation
-    scrollTime: 600,       // how long (in ms) the animation takes
-    activeClass: 'active', // class given to the active nav element
-    onPageChange: null,    // function(pageIndex) that is called when page is changed
-    topOffset: 0           // offste (in px) for fixed top navigation
-  });
 
-  // scrollup bottom to top
-  $.scrollUp({
-    scrollName: 'scrollUp', // Element ID
-    topDistance: '4500', // Distance from top before showing element (px)
-    topSpeed: 300, // Speed back to top (ms)
-    animation: 'fade', // Fade, slide, none
-    animationInSpeed: 200, // Animation in speed (ms)
-    animationOutSpeed: 200, // Animation out speed (ms)
-    scrollText: '<i class="fa fa-angle-double-up"></i>', // Text for element
-    activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
-  });
-
-
-  // blog-page
-
-  //brand-active
-$('.brand-active').owlCarousel({
-  loop:true,
-  margin:30,
-items:1,
-autoplay:true,
-  nav:false,
-dots:false,
-autoplayHoverPause: true,
-autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          nav:false
-
-      },
-      767:{
-          items:4
-      },
-      992:{
-          items:7
+    // review-active
+    $('.testmonial_active').owlCarousel({
+      loop: true,
+      margin: 0,
+      items: 1,
+      autoplay: true,
+      navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+      nav: true,
+      dots: false,
+      autoplayHoverPause: true,
+      autoplaySpeed: 800,
+      responsive: {
+        0: {
+          items: 1,
+          dots: false,
+          nav: false,
+        },
+        767: {
+          items: 1,
+          dots: false,
+          nav: false,
+        },
+        992: {
+          items: 1,
+          nav: false
+        },
+        1200: {
+          items: 1,
+          nav: false
+        },
+        1500: {
+          items: 1
+        }
       }
-  }
-});
+    });
 
-// blog-dtails-page
-
-  //project-active
-$('.project-active').owlCarousel({
-  loop:true,
-  margin:30,
-items:1,
-// autoplay:true,
-navText:['<i class="Flaticon flaticon-left-arrow"></i>','<i class="Flaticon flaticon-right-arrow"></i>'],
-nav:true,
-dots:false,
-// autoplayHoverPause: true,
-// autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          nav:false
-
-      },
-      767:{
-          items:1,
-          nav:false
-      },
-      992:{
-          items:2,
-          nav:false
-      },
-      1200:{
-          items:1,
-      },
-      1501:{
-          items:2,
+    // for filter
+    // init Isotope
+    var $grid = $('.grid').isotope({
+      itemSelector: '.grid-item',
+      percentPosition: true,
+      masonry: {
+        // use outer width of grid-sizer for columnWidth
+        columnWidth: 1
       }
-  }
-});
+    });
 
-if (document.getElementById('default-select')) {
-  $('select').niceSelect();
-}
+    // filter items on button click
+    $('.portfolio-menu').on('click', 'button', function () {
+      var filterValue = $(this).attr('data-filter');
+      $grid.isotope({ filter: filterValue });
+    });
 
-  //about-pro-active
-$('.details_active').owlCarousel({
-  loop:true,
-  margin:0,
-items:1,
-// autoplay:true,
-navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
-nav:true,
-dots:false,
-// autoplayHoverPause: true,
-// autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          nav:false
+    //for menu active class
+    $('.portfolio-menu button').on('click', function (event) {
+      $(this).siblings('.active').removeClass('active');
+      $(this).addClass('active');
+      event.preventDefault();
+    });
 
-      },
-      767:{
-          items:1,
-          nav:false
-      },
-      992:{
-          items:1,
-          nav:false
-      },
-      1200:{
-          items:1,
+    // wow js
+    new WOW().init();
+
+    // counter 
+    $('.counter').counterUp({
+      delay: 10,
+      time: 10000
+    });
+
+    /* magnificPopup img view */
+    $('.popup-image').magnificPopup({
+      type: 'image',
+      gallery: {
+        enabled: true
       }
+    });
+
+    /* magnificPopup img view */
+    $('.img-pop-up').magnificPopup({
+      type: 'image',
+      gallery: {
+        enabled: true
+      }
+    });
+
+    /* magnificPopup video view */
+    $('.popup-video').magnificPopup({
+      type: 'iframe'
+    });
+
+
+    // scrollIt for smoth scroll
+    $.scrollIt({
+      upKey: 38,             // key code to navigate to the next section
+      downKey: 40,           // key code to navigate to the previous section
+      easing: 'linear',      // the easing function for animation
+      scrollTime: 600,       // how long (in ms) the animation takes
+      activeClass: 'active', // class given to the active nav element
+      onPageChange: null,    // function(pageIndex) that is called when page is changed
+      topOffset: 0           // offste (in px) for fixed top navigation
+    });
+
+    // scrollup bottom to top
+    $.scrollUp({
+      scrollName: 'scrollUp', // Element ID
+      topDistance: '4500', // Distance from top before showing element (px)
+      topSpeed: 300, // Speed back to top (ms)
+      animation: 'fade', // Fade, slide, none
+      animationInSpeed: 200, // Animation in speed (ms)
+      animationOutSpeed: 200, // Animation out speed (ms)
+      scrollText: '<i class="fa fa-angle-double-up"></i>', // Text for element
+      activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+    });
+
+
+    // blog-page
+
+    //brand-active
+    $('.brand-active').owlCarousel({
+      loop: true,
+      margin: 30,
+      items: 1,
+      autoplay: true,
+      nav: false,
+      dots: false,
+      autoplayHoverPause: true,
+      autoplaySpeed: 800,
+      responsive: {
+        0: {
+          items: 1,
+          nav: false
+
+        },
+        767: {
+          items: 4
+        },
+        992: {
+          items: 7
+        }
+      }
+    });
+
+    // blog-dtails-page
+
+    //project-active
+    $('.project-active').owlCarousel({
+      loop: true,
+      margin: 30,
+      items: 1,
+      // autoplay:true,
+      navText: ['<i class="Flaticon flaticon-left-arrow"></i>', '<i class="Flaticon flaticon-right-arrow"></i>'],
+      nav: true,
+      dots: false,
+      // autoplayHoverPause: true,
+      // autoplaySpeed: 800,
+      responsive: {
+        0: {
+          items: 1,
+          nav: false
+
+        },
+        767: {
+          items: 1,
+          nav: false
+        },
+        992: {
+          items: 2,
+          nav: false
+        },
+        1200: {
+          items: 1,
+        },
+        1501: {
+          items: 2,
+        }
+      }
+    });
+
+    if (document.getElementById('default-select')) {
+      $('select').niceSelect();
+    }
+
+    //about-pro-active
+    $('.details_active').owlCarousel({
+      loop: true,
+      margin: 0,
+      items: 1,
+      // autoplay:true,
+      navText: ['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>'],
+      nav: true,
+      dots: false,
+      // autoplayHoverPause: true,
+      // autoplaySpeed: 800,
+      responsive: {
+        0: {
+          items: 1,
+          nav: false
+
+        },
+        767: {
+          items: 1,
+          nav: false
+        },
+        992: {
+          items: 1,
+          nav: false
+        },
+        1200: {
+          items: 1,
+        }
+      }
+    });
+
+  });
+
+  // resitration_Form
+  $(document).ready(function () {
+    $('.popup-with-form').magnificPopup({
+      type: 'inline',
+      preloader: false,
+      focus: '#name',
+
+      // When elemened is focused, some mobile browsers in some cases zoom in
+      // It looks not nice, so we disable it:
+      callbacks: {
+        beforeOpen: function () {
+          if ($(window).width() < 700) {
+            this.st.focus = false;
+          } else {
+            this.st.focus = '#name';
+          }
+        }
+      }
+    });
+  });
+
+  // resitration_Form
+  $(document).ready(function () {
+    $('.dont-hav-acc').magnificPopup({
+      type: 'inline',
+      preloader: false,
+      focus: '#name',
+
+      // When elemened is focused, some mobile browsers in some cases zoom in
+      // It looks not nice, so we disable it:
+      callbacks: {
+        beforeOpen: function () {
+          if ($(window).width() < 700) {
+            this.st.focus = false;
+          } else {
+            this.st.focus = '#name';
+          }
+        }
+      }
+    });
+  });
+
+
+
+  //------- Mailchimp js --------//  
+  function mailChimp() {
+    $('#mc_embed_signup').find('form').ajaxChimp();
   }
-});
-
-});
-
-// resitration_Form
-$(document).ready(function() {
-	$('.popup-with-form').magnificPopup({
-		type: 'inline',
-		preloader: false,
-		focus: '#name',
-
-		// When elemened is focused, some mobile browsers in some cases zoom in
-		// It looks not nice, so we disable it:
-		callbacks: {
-			beforeOpen: function() {
-				if($(window).width() < 700) {
-					this.st.focus = false;
-				} else {
-					this.st.focus = '#name';
-				}
-			}
-		}
-	});
-});
-
-// resitration_Form
-$(document).ready(function() {
-	$('.dont-hav-acc').magnificPopup({
-		type: 'inline',
-		preloader: false,
-		focus: '#name',
-
-		// When elemened is focused, some mobile browsers in some cases zoom in
-		// It looks not nice, so we disable it:
-		callbacks: {
-			beforeOpen: function() {
-				if($(window).width() < 700) {
-					this.st.focus = false;
-				} else {
-					this.st.focus = '#name';
-				}
-			}
-		}
-	});
-});
+  mailChimp();
 
 
 
-//------- Mailchimp js --------//  
-function mailChimp() {
-  $('#mc_embed_signup').find('form').ajaxChimp();
-}
-mailChimp();
+  // Search Toggle
+  $("#search_input_box").hide();
+  $("#search").on("click", function () {
+    $("#search_input_box").slideToggle();
+    $("#search_input").focus();
+  });
+  $("#close_search").on("click", function () {
+    $('#search_input_box').slideUp(500);
+  });
+  // Search Toggle
+  $("#search_input_box").hide();
+  $("#search_1").on("click", function () {
+    $("#search_input_box").slideToggle();
+    $("#search_input").focus();
+  });
 
 
 
-        // Search Toggle
-        $("#search_input_box").hide();
-        $("#search").on("click", function () {
-            $("#search_input_box").slideToggle();
-            $("#search_input").focus();
-        });
-        $("#close_search").on("click", function () {
-            $('#search_input_box').slideUp(500);
-        });
-        // Search Toggle
-        $("#search_input_box").hide();
-        $("#search_1").on("click", function () {
-            $("#search_input_box").slideToggle();
-            $("#search_input").focus();
-        });
+  /*----------------------------------------------------*/
+  /* Course Star Review
+  /*----------------------------------------------------*/
 
-})(jQuery);	
+  $('#reviw_submit').on('submit', function () {
+
+    var feedback = $('#feedback').val();
+    var ratingValue = $('#ratingvalue').val();
+
+    if (feedback == '' || ratingValue == '') {
+      alert('You must select Star and Write a Review!');
+    } else {
+      var $url = $('#reviewajax').val();
+      var userdata = $(this).serialize();
+
+      $.ajax({
+        type: 'post',
+        url: $url,
+        data: {
+          action: 'course_star_review',
+          userdata: userdata
+        },
+        success: function (res) {
+          if (res != 'Error') {
+            location.reload();
+          } else {
+            alert('You must be login user');
+          }
+        }
+      })
+
+      return false;
+    }
+
+  });
+
+
+
+  $(document).ready(function () {
+
+    /* 1. Visualizing things on Hover - See next part for action on click */
+    $('#stars li').on('mouseover', function () {
+      var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+      // Now highlight all the stars that's not after the current hovered star
+      $(this).parent().children('li.star').each(function (e) {
+        if (e < onStar) {
+          $(this).addClass('hover');
+        }
+        else {
+          $(this).removeClass('hover');
+        }
+      });
+
+    }).on('mouseout', function () {
+      $(this).parent().children('li.star').each(function (e) {
+        $(this).removeClass('hover');
+      });
+    });
+
+
+    /* 2. Action to perform on click */
+    $('#stars li').on('click', function () {
+      var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+      var stars = $(this).parent().children('li.star');
+      var i = 0;
+      for (i = 0; i < stars.length; i++) {
+        $(stars[i]).removeClass('selected');
+      }
+
+      for (i = 0; i < onStar; i++) {
+        $(stars[i]).addClass('selected');
+      }
+
+      // JUST RESPONSE (Not needed)
+      var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+      document.getElementById("ratingvalue").value = ratingValue;
+      var msg = "";
+      if (ratingValue == 1) {
+        msg = "Poor";
+      }
+      else if (ratingValue == 2) {
+        msg = "Fair";
+      }
+      else if (ratingValue == 3) {
+        msg = "Good";
+      }
+      else if (ratingValue == 4) {
+        msg = "Excellent";
+      }
+      else if (ratingValue == 5) {
+        msg = "Outstanding";
+      }
+      responseMessage(msg);
+
+    });
+
+
+  });
+
+
+  function responseMessage(msg) {
+    $('.success-box').fadeIn(200);
+    $('.success-box div.text-message').html("<span>" + msg + "</span>");
+  }
+
+
+})(jQuery);

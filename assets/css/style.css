@@ -2916,7 +2916,7 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_course_details.scss */
 .courses_details_banner {
-  background-image: url(../img/banner/bradcam2.png);
+  background-image: url(../img/bradcam2.png);
   padding-top: 286px;
   padding-bottom: 186px;
   background-size: cover;
@@ -3188,10 +3188,24 @@ h3 {
   font-family: "Poppins", sans-serif;
   margin-bottom: 0;
 }
+.courses_details_info .courses_sidebar .feedback_info .rating-stars, .courses_details_info .courses_sidebar .feedback_info .success-box {
+  float: left;
+  width: 50%;
+}
+.courses_details_info .courses_sidebar .feedback_info ul {
+  display: flex;
+  align-items: center;
+}
 
+.courses_details_info .courses_sidebar .feedback_info ul li {
+  margin: 0px 2px;
+}
 /* line 198, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_course_details.scss */
 .courses_details_info .courses_sidebar .feedback_info i {
   font-size: 20px;
+  color: #bfbfbf;
+}
+.courses_details_info .courses_sidebar .feedback_info li.selected i, .courses_details_info .courses_sidebar .feedback_info li.hover i {
   color: #FEAE5C;
 }
 
@@ -3210,6 +3224,15 @@ h3 {
 .courses_details_info .courses_sidebar .feedback_info textarea::placeholder {
   font-family: "Poppins", sans-serif;
   font-size: 17px;
+}
+
+.single-reviews .user .desc .star .fa {
+  color: #bfbfbf;
+  margin: 0 2px;
+}
+
+.single-reviews .user .desc .star .fa.checked {
+  color: #FEAE5C;
 }
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_testmonial.scss */

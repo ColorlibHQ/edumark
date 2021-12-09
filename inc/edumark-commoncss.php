@@ -28,16 +28,15 @@ function edumark_common_custom_css(){
 		$headerTop_bg     		  = edumark_opt( 'edumark_top_header_bg_color' );
 		$headerTop_col     		  = edumark_opt( 'edumark_top_header_color' );
 
-		$headerBg          		  = edumark_opt( 'edumark_header_bg_color');
+		$headerBg          		  = edumark_opt( 'edumark_header_bg_color') != '#ffffff' ? edumark_opt( 'edumark_header_bg_color') : '';
 		
-		$headerRightBtnColor      = edumark_opt( 'edumark_header_right_btn_color' ) != '#ff663b' ? edumark_opt( 'edumark_header_right_btn_color' ) : '';
-		$headerRightBtnHvrColor   = edumark_opt( 'edumark_header_right_btn_hover_color' ) != '#ff663b' ? edumark_opt( 'edumark_header_right_btn_hover_color' ) : '';
+		$headerRightBtnColor      = edumark_opt( 'edumark_header_right_btn_color' ) != '#FDAE5C' ? edumark_opt( 'edumark_header_right_btn_color' ) : '';
 
 		$footerwbgColor     	  = edumark_opt('edumark_footer_bg_color');
 		$footerwTextColor   	  = edumark_opt('edumark_footer_widget_text_color') != '#abb2ba' ? edumark_opt('edumark_footer_widget_text_color') : '';
 		$widgettitlecolor  		  = edumark_opt('edumark_footer_widget_title_color');
-		$footerwanchorcolor 	  = edumark_opt('edumark_footer_widget_anchor_color') != '#ff663b' ? edumark_opt('edumark_footer_widget_anchor_color') : '';
-		$footerwanchorhovcolor    = edumark_opt('edumark_footer_widget_anchor_hover_color');
+		$footerwanchorcolor 	  = edumark_opt('edumark_footer_widget_anchor_color') != '#bababa' ? edumark_opt('edumark_footer_widget_anchor_color') : '';
+		$footerwanchorhovcolor    = edumark_opt('edumark_footer_widget_anchor_hover_color') != '#fdae5c' ? edumark_opt('edumark_footer_widget_anchor_hover_color') : '';
 
 		$fofbg					  = edumark_opt('edumark_fof_bg_color');
 		$foftonecolor			  = edumark_opt('edumark_fof_textone_color');
@@ -48,13 +47,15 @@ function edumark_common_custom_css(){
 				{$header_bg_img}
 			}
 			
-			.main_menu nav .btn_1
+			.header-area .log_chat_area .live_chat_btn a
 			{
 				background: {$headerRightBtnColor};
 			}
-			.main_menu nav .btn_1:hover
+			.header-area .log_chat_area .live_chat_btn a:hover
 			{
-				background: {$headerRightBtnHvrColor};
+				background: transparent;
+				color: {$headerRightBtnColor} !important;
+				border-color: {$headerRightBtnColor};
 			}
 
 			.feature_part .single_feature:hover .single_feature_part{
@@ -110,7 +111,7 @@ function edumark_common_custom_css(){
 				color: {$headerTop_col}
 			}
 
-			.main_menu.menu_fixed, .dropdown .dropdown-menu, .dropdown .dropdown-menu .dropdown-item
+			.main_menu.menu_fixed, .dropdown .dropdown-menu, .dropdown .dropdown-menu .dropdown-item, .header-area .main-header-area.sticky
 			{
 				background: {$headerBg};
 			}
@@ -119,25 +120,25 @@ function edumark_common_custom_css(){
 				background-color: {$footerwbgColor};
 			}
 
-			.footer-area .single-footer-widget p, .footer-area .widget_edumark_newsletter .input-group input, .footer-area .copyright_part_text p, .footer-area .footer_2 .social_icon a
+			.footer-area .single-footer-widget p, .footer-area .widget_edumark_newsletter .input-group input, .footer-area .copyright_part_text p, .footer-area .footer_2 .social_icon a, .footer .footer_top .footer_widget p, .footer .copy-right_text .copy_right
 			{
 				color: {$footerwTextColor}
 			}
 			.footer-area .copyright_part_text {
 				border-color: {$footerwTextColor}
 			}
-			.footer-area .single-footer-widget h4
+			.footer-area .single-footer-widget h4, .footer .footer_top .footer_widget .footer_title
 			{
 				color: {$widgettitlecolor}
 			}
 
-			.footer-area .copyright_part_text a
+			.footer-area .copyright_part_text a, .footer .footer_top .footer_widget ul li a, .widget_edumark_social_links .social_icon a, .footer .copy-right_text .copy_right a
 			{
 			   color: {$footerwanchorcolor};
 			}
-			.footer-area .copyright_part_text a:hover, .footer-area .footer_2 .social_icon a:hover
+			.footer-area .copyright_part_text a:hover, .footer-area .footer_2 .social_icon a:hover, .footer .footer_top .footer_widget ul li a:hover, .footer .copy-right_text .copy_right a:hover, .widget_edumark_social_links .social_icon a:hover
 			{
-			   color: {$footerwanchorhovcolor}!important;
+			   color: {$footerwanchorhovcolor};
 			}
 			#f0f {
 				background-color: {$fofbg};

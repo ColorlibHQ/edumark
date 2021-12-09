@@ -33,6 +33,7 @@ function course_repeatable_group_field_metabox() {
 	) );
 	$cmb_meta->add_field( array(
 		'name' => esc_html__( 'Trainer’s Image', 'edumark' ),
+		'description' => esc_html__( 'Trainsdf Image', 'edumark' ),
 		'id'   => 'course_trainer_img',
 		'type' => 'file',
 		'query_args' => array(
@@ -50,6 +51,11 @@ function course_repeatable_group_field_metabox() {
 		'type' => 'text',
 	) );
 	$cmb_meta->add_field( array(
+		'name' => esc_html__( 'Trainer’s Text', 'edumark' ),
+		'id'   => 'trainers_text',
+		'type' => 'textarea',
+	) );
+	$cmb_meta->add_field( array(
 		'name' => esc_html__( 'Regular Course Fee', 'edumark' ),
 		'id'   => 'course_fee_regular',
 		'type' => 'text',
@@ -57,6 +63,11 @@ function course_repeatable_group_field_metabox() {
 	$cmb_meta->add_field( array(
 		'name' => esc_html__( 'Discount Course Fee', 'edumark' ),
 		'id'   => 'course_fee_discount',
+		'type' => 'text',
+	) );
+	$cmb_meta->add_field( array(
+		'name' => esc_html__( 'Rating', 'edumark' ),
+		'id'   => 'total_rating',
 		'type' => 'text',
 	) );
 	$cmb_meta->add_field( array(

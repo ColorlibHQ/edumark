@@ -97,7 +97,9 @@
 
     <?php
     //Page Title Bar
-    if( function_exists( 'edumark_page_titlebar' ) ){
-	    edumark_page_titlebar();
+    if ( ! is_singular( 'course' ) ) {
+        if( function_exists( 'edumark_page_titlebar' ) ){
+            edumark_page_titlebar();
+        }
     }
 

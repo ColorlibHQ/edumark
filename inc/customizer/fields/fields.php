@@ -8,37 +8,6 @@
  * Customizer section fields
  *
  */
-
-/***********************************
- * General Section Fields
- ***********************************/
-
- // Theme color field
-Epsilon_Customizer::add_field(
-    'edumark_theme_color',
-    array(
-        'type'        => 'epsilon-color-picker',
-        'label'       => esc_html__( 'Theme Color', 'edumark' ),
-        'description' => esc_html__( 'Select the theme color.', 'edumark' ),
-        'sanitize_callback' => 'sanitize_text_field',
-        'section'     => 'edumark_general_section',
-        'default'     => '#ff663b',
-    )
-);
-
- // Theme color field
-Epsilon_Customizer::add_field(
-    'edumark_theme_box_shadow_color',
-    array(
-        'type'        => 'epsilon-color-picker',
-        'label'       => esc_html__( 'Box Shadow Color', 'edumark' ),
-        'description' => esc_html__( 'Applies where it\'s needed.', 'edumark' ),
-        'sanitize_callback' => 'sanitize_text_field',
-        'section'     => 'edumark_general_section',
-        'default'     => 'rgba(255, 126, 95, 0.15)',
-    )
-);
-
  
 // Header background color field
 Epsilon_Customizer::add_field(
@@ -105,26 +74,12 @@ Epsilon_Customizer::add_field(
     'edumark_header_right_btn_color',
     array(
         'type'        => 'epsilon-color-picker',
-        'label'       => esc_html__( 'Header right button bg color', 'edumark' ),
+        'label'       => esc_html__( 'Header right button color', 'edumark' ),
         'sanitize_callback' => 'sanitize_text_field',
         'section'     => 'edumark_header_section',
-        'default'     => '#ff663b'
+        'default'     => '#FDAE5C'
     )
 );
-
-// Header right button hover bg color field
-Epsilon_Customizer::add_field(
-    'edumark_header_right_btn_hover_color',
-    array(
-        'type'        => 'epsilon-color-picker',
-        'label'       => esc_html__( 'Header right button hover bg color', 'edumark' ),
-        'sanitize_callback' => 'sanitize_text_field',
-        'section'     => 'edumark_header_section',
-        'default'     => '#ff663b'
-    )
-);
-
-
 
 /***********************************
  * Blog Section Fields
@@ -281,7 +236,7 @@ Epsilon_Customizer::add_field(
         'label'       => esc_html__( 'Footer Text Color', 'edumark' ),
         'sanitize_callback' => 'sanitize_text_field',
         'section'     => 'edumark_footer_section',
-        'default'     => '#888',
+        'default'     => '#C7C7C7',
     )
 );
 
@@ -293,7 +248,7 @@ Epsilon_Customizer::add_field(
         'label'       => esc_html__( 'Footer Widget Title Color', 'edumark' ),
         'sanitize_callback' => 'sanitize_text_field',
         'section'     => 'edumark_footer_section',
-        'default'     => '#0c2e60',
+        'default'     => '#fff',
     )
 );
 
@@ -305,7 +260,7 @@ Epsilon_Customizer::add_field(
         'label'       => esc_html__( 'Footer Anchor Color', 'edumark' ),
         'sanitize_callback' => 'sanitize_text_field',
         'section'     => 'edumark_footer_section',
-        'default'     => '#ff663b',
+        'default'     => '#BABABA',
     )
 );
 
@@ -317,7 +272,7 @@ Epsilon_Customizer::add_field(
         'label'       => esc_html__( 'Footer Anchor Hover Color', 'edumark' ),
         'sanitize_callback' => 'sanitize_text_field',
         'section'     => 'edumark_footer_section',
-        'default'     => '#ff663b',
+        'default'     => '#FDAE5C',
     )
 );
 
