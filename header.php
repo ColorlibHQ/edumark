@@ -19,7 +19,7 @@
         <div class="header-area ">
             <div id="sticky-header" class="main-header-area">
                 <div class="container-fluid p-0">
-                    <div class="row align-items-center no-gutters">
+                    <div class="row align-items-center g-0">
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo-img">
                                 <?php
@@ -76,7 +76,7 @@
                                     ?>
                                     <div class="live_chat_btn">
                                         <a class="boxed_btn_orange" href="tel:<?php echo esc_html( $edumark_phone_number )?>">
-                                            <i class="fa fa-phone"></i>
+                                            <i class="fa-solid fa-phone"></i>
                                             <span><?php echo esc_html( $edumark_phone_number )?></span>
                                         </a>
                                     </div>

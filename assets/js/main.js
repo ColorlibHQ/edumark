@@ -37,7 +37,7 @@
       margin: 0,
       items: 1,
       autoplay: true,
-      navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+      navText: ['<i class="fa-solid fa-angle-left"></i>', '<i class="fa-solid fa-angle-right"></i>'],
       nav: true,
       dots: false,
       autoplayHoverPause: true,
@@ -141,7 +141,7 @@
       animation: 'fade', // Fade, slide, none
       animationInSpeed: 200, // Animation in speed (ms)
       animationOutSpeed: 200, // Animation out speed (ms)
-      scrollText: '<i class="fa fa-angle-double-up"></i>', // Text for element
+      scrollText: '<i class="fa-solid fa-angle-double-up"></i>', // Text for element
       activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
     });
 

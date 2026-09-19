@@ -80,10 +80,10 @@ get_header();
                             <div class="hours">
                                 <div class="video">
                                      <div class="single_video">
-                                            <i class="fa fa-clock-o"></i> <span><?php echo esc_html($totalVideos)?></span>
+                                            <i class="fa-regular fa-clock"></i> <span><?php echo esc_html($totalVideos)?></span>
                                      </div>
                                      <div class="single_video">
-                                            <i class="fa fa-play-circle-o"></i> <span><?php echo esc_html($courseDuration)?></span>
+                                            <i class="fa-regular fa-circle-play"></i> <span><?php echo esc_html($courseDuration)?></span>
                                      </div>
                                    
                                 </div>
@@ -116,12 +116,12 @@ get_header();
                                     <div class="card">
                                         <div class="card-header" id="heading<?=esc_attr( $key )?>">
                                             <h5 class="mb-0">
-                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse<?=esc_attr( $key )?>" aria-expanded="false" aria-controls="collapse<?=esc_attr( $key )?>">
+                                                <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapse<?=esc_attr( $key )?>" aria-expanded="false" aria-controls="collapse<?=esc_attr( $key )?>">
                                                     <i class="flaticon-question"></i> <?=esc_html( $value['lesson_title'] )?>
                                                 </button>
                                             </h5>
                                         </div>
-                                        <div id="collapse<?=esc_attr( $key )?>" class="collapse" aria-labelledby="heading<?=esc_attr( $key )?>" data-parent="#accordion">
+                                        <div id="collapse<?=esc_attr( $key )?>" class="collapse" aria-labelledby="heading<?=esc_attr( $key )?>" data-bs-parent="#accordion">
                                             <div class="card-body">
                                                 <?=esc_html( $value['lesson_text'] )?>
                                             </div>
@@ -143,7 +143,7 @@ get_header();
                                 }
                             ?>
                             <a class="popup-video" href="<?php echo esc_url( $popupVieoUrl )?>">
-                                <i class="fa fa-play"></i>
+                                <i class="fa-solid fa-play"></i>
                             </a>
                         </div>
                         <div class="author_info">
@@ -168,8 +168,8 @@ get_header();
                             </div>
                             <p class="text_info"><?=wp_kses_post( $trainer_text )?></p>
                             <ul>
-                                <li><a href="#"> <i class="fa fa-envelope"></i> </a></li>
-                                <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
+                                <li><a href="#"> <i class="fa-solid fa-envelope"></i> </a></li>
+                                <li><a href="#"> <i class="fa-brands fa-twitter"></i> </a></li>
                                 <li><a href="#"> <i class="ti-linkedin"></i> </a></li>
                             </ul>
                         </div>
@@ -197,7 +197,7 @@ get_header();
                                 </ul>
                             </div>
                             
-                            <div class='success-box text-right'>
+                            <div class='success-box text-end'>
                                 <div class='text-message'><span><?php echo esc_html__( 'N/A', 'edumark' ); ?></span></div>
                             </div>
                             
@@ -234,9 +234,9 @@ get_header();
                                                         for ($i = 1; $i <= 5; $i++) {
 
                                                             if ($starReview >= $i) {
-                                                                echo '<span class="fa fa-star checked"></span>';
+                                                                echo '<span class="fa-solid fa-star checked"></span>';
                                                             } else {
-                                                                echo '<span class="fa fa-star"></span>';
+                                                                echo '<span class="fa-solid fa-star"></span>';
                                                             }
                                                         }
                                                         echo '</div>';
