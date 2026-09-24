@@ -203,21 +203,6 @@ h3 {
   background: #f5f5f5;
 }
 
-/* line 129, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
-.bg-img-1 {
-  background-image: url(../img/slider/slider-img-1.jpg);
-}
-
-/* line 132, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
-.bg-img-2 {
-  background-image: url(../img/background-img/bg-img-2.jpg);
-}
-
-/* line 135, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
-.cta-bg-1 {
-  background-image: url(../img/background-img/bg-img-3.jpg);
-}
-
 /* line 140, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_reset.scss */
 .overlay {
   position: relative;
@@ -1224,11 +1209,6 @@ h3 {
   padding-right: 7px;
 }
 
-/* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_slider.scss */
-.slider_bg_1 {
-  background-image: url(../img/banner/banner.png);
-}
-
 /* line 5, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_slider.scss */
 .slider_area .single_slider {
   height: 100vh;
@@ -1870,16 +1850,6 @@ h3 {
 /* line 164, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_footer.scss */
 .footer .socail_links ul li a:hover {
   color: #fff !important;
-}
-
-/* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
-.breadcam_bg {
-  background-image: url(../img/banner/bradcam.png);
-}
-
-/* line 4, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
-.breadcam_bg_2 {
-  background-image: url(../img/banner/bradcam2.png);
 }
 
 /* line 7, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_bradcam.scss */
@@ -2807,11 +2777,6 @@ h3 {
   transform: scale(1.1);
 }
 
-/* line 97, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_team.scss */
-.find_bg_1 {
-  background-image: url(../img/team/img.png);
-}
-
 /* line 101, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_team.scss */
 .find_us_area .single_find {
   padding-bottom: 10px;
@@ -3233,11 +3198,6 @@ h3 {
 
 .single-reviews .user .desc .star .fa.checked {
   color: #FEAE5C;
-}
-
-/* line 1, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_testmonial.scss */
-.testimonial_bg_1 {
-  background-image: url(../img/testmonial/testmonial.png);
 }
 
 /* line 4, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_testmonial.scss */
@@ -4635,12 +4595,6 @@ h6 {
   border: 1px solid #f1f1f1;
 }
 
-/* line 798, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
-.primary-checkbox input:checked + label {
-  background: url(../img/elements/primary-check.png) no-repeat center center/cover;
-  border: none;
-}
-
 /* line 806, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
 .confirm-checkbox {
   width: 16px;
@@ -4675,12 +4629,6 @@ h6 {
   border-radius: 3px;
   cursor: pointer;
   border: 1px solid #f1f1f1;
-}
-
-/* line 835, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
-.confirm-checkbox input:checked + label {
-  background: url(../img/elements/success-check.png) no-repeat center center/cover;
-  border: none;
 }
 
 /* line 843, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
@@ -4725,12 +4673,6 @@ h6 {
   z-index: 3;
 }
 
-/* line 876, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
-.disabled-checkbox input:checked + label {
-  background: url(../img/elements/disabled-check.png) no-repeat center center/cover;
-  border: none;
-}
-
 /* line 884, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
 .primary-radio {
   width: 16px;
@@ -4767,12 +4709,6 @@ h6 {
   border: 1px solid #f1f1f1;
 }
 
-/* line 913, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
-.primary-radio input:checked + label {
-  background: url(../img/elements/primary-radio.png) no-repeat center center/cover;
-  border: none;
-}
-
 /* line 921, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
 .confirm-radio {
   width: 16px;
@@ -4807,12 +4743,6 @@ h6 {
   border-radius: 8px;
   cursor: pointer;
   border: 1px solid #f1f1f1;
-}
-
-/* line 950, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
-.confirm-radio input:checked + label {
-  background: url(../img/elements/success-radio.png) no-repeat center center/cover;
-  border: none;
 }
 
 /* line 958, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
@@ -4855,12 +4785,6 @@ h6 {
 .disabled-radio input:disabled {
   cursor: not-allowed;
   z-index: 3;
-}
-
-/* line 991, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
-.disabled-radio input:checked + label {
-  background: url(../img/elements/disabled-radio.png) no-repeat center center/cover;
-  border: none;
 }
 
 /* line 999, C:/Users/SPN Graphics/Desktop/CL September/Edu mark/207 Education/HTML/scss/_elements.scss */
