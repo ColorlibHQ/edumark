@@ -489,7 +489,9 @@
       var ratingValue = valueOf('ratingvalue');
 
       if (feedback == '' || ratingValue == '') {
-        // The form is still submitted normally after this, as it always was.
+        // Stay on the page so the visitor can fix it (the form used to
+        // submit to "#" anyway after the alert, reloading the page).
+        event.preventDefault();
         alert('You must select Star and Write a Review!');
       } else {
         event.preventDefault();

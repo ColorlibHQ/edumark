@@ -14,6 +14,7 @@ function edumark_sl_enqueue_scripts() {
 
 	wp_localize_script( 'edumark-post-likes', 'simpleLikes', array(
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
+		'like'    => esc_html__( 'Like', 'edumark' ),
 		'unlike'  => esc_html__( 'Unlike', 'edumark' )
 	) );
 }

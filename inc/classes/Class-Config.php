@@ -194,12 +194,6 @@
 						'version' 		=> '1.0',
 					),
 					array(
-						'handler'		=> 'edumark-gijgo-css',
-						'file' 			=> $cssPath.'gijgo.css',
-						'dependency' 	=> array(),
-						'version' 		=> '1.0',
-					),
-					array(
 						'handler'		=> 'edumark-slicknav-css',
 						'file' 			=> $cssPath.'slicknav.css',
 						'dependency' 	=> array(),
@@ -215,13 +209,13 @@
 						'handler'		=> 'edumark-default-css',
 						'file' 			=> $cssPath.'default.css',
 						'dependency' 	=> array(),
-						'version' 		=> '1.0-s3',
+						'version' 		=> '1.0',
 					),
 					array(
 						'handler'		=> 'edumark-style-css',
 						'file' 			=> $cssPath.'style.css',
 						'dependency' 	=> array(),
-						'version' 		=> '1.0',
+						'version' 		=> '1.0-s3',
 					),
 					
 					array(
@@ -250,7 +244,7 @@
 						'handler'		=> 'edumark-custom',
 						'file' 			=> $jsPath.'main.js',
 						'dependency' 	=> array( 'masonry', 'edumark-ui-js' ),
-						'version' 		=> $this->edumark_version . '-s2',
+						'version' 		=> $this->edumark_version . '-s3',
 						'in_footer' 	=> true
 					),
 
