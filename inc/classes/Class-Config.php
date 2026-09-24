@@ -155,7 +155,7 @@
 						'handler'		=> 'edumark-bootstrap',
 						'file' 			=> $cssPath.'bootstrap.min.css',
 						'dependency' 	=> array(),
-						'version' 		=> '5.3.8-4',
+						'version' 		=> '5.3.8-5',
 					),
 					array(
 						'handler'		=> 'edumark-animate',
