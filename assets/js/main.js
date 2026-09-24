@@ -1,38 +1,147 @@
-(function ($) {
-  "use strict";
+/**
+ * Edumark front-end behaviour, without jQuery.
+ *
+ * The plugin calls keep the options they always had; ColorlibUI provides
+ * drop-in versions of Owl Carousel, Isotope, Magnific Popup, SlickNav,
+ * ScrollUp and AjaxChimp that build the same markup, so the theme's
+ * stylesheets apply unchanged. scrollIt.js is replaced by scrollIt() below.
+ */
+(function () {
+  'use strict';
+
+  var UI = window.ColorlibUI;
+  if (!UI) return;
+
+  // Edumark shipped Owl Carousel 2.2.1, and its stylesheets style that build's
+  // <div> arrows and dots (2.3 builds <button>s). Set before any carousel
+  // starts, including the companion plugin's and the Elementor editor's.
+  if (UI.owl && UI.owl.defaults) UI.owl.defaults.markup = '2.2';
+
   // TOP Menu Sticky
-  $(window).on('scroll', function () {
-    var scroll = $(window).scrollTop();
-    if (scroll < 400) {
-      $("#sticky-header").removeClass("sticky");
-      $('#back-top').fadeIn(500);
-    } else {
-      $("#sticky-header").addClass("sticky");
-      $('#back-top').fadeIn(500);
+  window.addEventListener('scroll', function () {
+    var header = document.getElementById('sticky-header');
+    if (header) header.classList.toggle('sticky', window.pageYOffset >= 400);
+    UI.fade('#back-top', 'in', 500);
+  }, { passive: true });
+
+  /**
+   * scrollIt.js: [data-scroll-nav] / [data-scroll-goto] links scroll to the
+   * [data-scroll-index] section with the same number, the nav link of the
+   * section in view gets activeClass, and the up/down keys step between
+   * sections. Pages without [data-scroll-index] sections are left alone.
+   */
+  function scrollIt(options) {
+    var settings = UI.extend({
+      upKey: 38,
+      downKey: 40,
+      scrollTime: 600,
+      activeClass: 'active',
+      onPageChange: null,
+      topOffset: 0
+    }, options);
+    var sections = UI.toElements('[data-scroll-index]');
+    // Indexes stay strings, as scrollIt read them from the attributes.
+    var lastIndex = sections.length ? sections[sections.length - 1].getAttribute('data-scroll-index') : undefined;
+    var active = 0;
+    var animating = false;
+
+    function navigate(ndx) {
+      if (ndx < 0 || ndx > lastIndex) return;
+      var section = document.querySelector('[data-scroll-index="' + ndx + '"]');
+      if (!section) return;
+      animating = true;
+      window.setTimeout(function () { animating = false; }, settings.scrollTime);
+      UI.scrollToY(UI.offset(section).top + settings.topOffset + 1, settings.scrollTime);
     }
-  });
 
-
-  $(document).ready(function () {
-
-    // mobile_menu
-    var menu = $('ul#navigation');
-    if (menu.length) {
-      menu.slicknav({
-        prependTo: ".mobile_menu",
-        closedSymbol: '+',
-        openedSymbol: '-'
+    function updateActive(ndx) {
+      if (settings.onPageChange && ndx && active != ndx) settings.onPageChange(ndx);
+      active = ndx;
+      UI.toElements('[data-scroll-nav]').forEach(function (nav) {
+        nav.classList.toggle(settings.activeClass, nav.getAttribute('data-scroll-nav') === ndx);
       });
-    };
-    // blog-menu
-    // $('ul#blog-menu').slicknav({
-    //   prependTo: ".blog_menu"
-    // });
+    }
 
+    function watchActive() {
+      var winTop = window.pageYOffset;
+      var visible = UI.toElements('[data-scroll-index]').filter(function (section) {
+        var top = UI.offset(section).top + settings.topOffset;
+        return winTop >= top && winTop < top + section.offsetHeight;
+      });
+      updateActive(visible.length ? visible[0].getAttribute('data-scroll-index') : undefined);
+    }
 
+    window.addEventListener('scroll', watchActive, { passive: true });
+    watchActive();
+
+    window.addEventListener('keydown', function (e) {
+      var key = e.keyCode;
+      if (key !== settings.upKey && key !== settings.downKey) return;
+      // While a scroll runs the keys are swallowed.
+      if (!animating) {
+        if (key === settings.upKey && active > 0) {
+          navigate(parseInt(active, 10) - 1);
+        } else if (key === settings.downKey && active < lastIndex) {
+          navigate(parseInt(active, 10) + 1);
+        } else {
+          return;
+        }
+      }
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    document.body.addEventListener('click', function (e) {
+      if (!e.target.closest) return;
+      var nav = e.target.closest('[data-scroll-nav]');
+      var goTo = e.target.closest('[data-scroll-goto]');
+      if (!nav && !goTo) return;
+      e.preventDefault();
+      navigate(parseInt((nav && nav.getAttribute('data-scroll-nav')) ||
+        (goTo && goTo.getAttribute('data-scroll-goto')), 10));
+    });
+  }
+
+  /** The li.star elements of the star's list, as $(this).parent().children('li.star'). */
+  function siblingStars(li) {
+    return Array.prototype.filter.call(li.parentNode.children, function (el) {
+      return el.matches('li.star');
+    });
+  }
+
+  function responseMessage(msg) {
+    UI.fade('.success-box', 'in', 200);
+    UI.toElements('.success-box div.text-message').forEach(function (el) {
+      el.innerHTML = '<span>' + msg + '</span>';
+    });
+  }
+
+  /** $('#id').val() */
+  function valueOf(id) {
+    var el = document.getElementById(id);
+    return el ? el.value : undefined;
+  }
+
+  /** $(form).serialize(): the form's fields, form-encoded, line breaks as CRLF. */
+  function serialize(form) {
+    var pairs = [];
+    new FormData(form).forEach(function (value, name) {
+      if (typeof value !== 'string') return; // file inputs were never included
+      pairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(value.replace(/\r?\n/g, '\r\n')));
+    });
+    return pairs.join('&');
+  }
+
+  function init() {
+    // mobile_menu
+    UI.slicknav('ul#navigation', {
+      prependTo: '.mobile_menu',
+      closedSymbol: '+',
+      openedSymbol: '-'
+    });
 
     // review-active
-    $('.testmonial_active').owlCarousel({
+    UI.owl('.testmonial_active', {
       loop: true,
       margin: 0,
       items: 1,
@@ -46,12 +155,12 @@
         0: {
           items: 1,
           dots: false,
-          nav: false,
+          nav: false
         },
         767: {
           items: 1,
           dots: false,
-          nav: false,
+          nav: false
         },
         992: {
           items: 1,
@@ -69,7 +178,7 @@
 
     // for filter
     // init Isotope
-    var $grid = $('.grid').isotope({
+    UI.isotope('.grid', {
       itemSelector: '.grid-item',
       percentPosition: true,
       masonry: {
@@ -79,26 +188,33 @@
     });
 
     // filter items on button click
-    $('.portfolio-menu').on('click', 'button', function () {
-      var filterValue = $(this).attr('data-filter');
-      $grid.isotope({ filter: filterValue });
+    UI.toElements('.portfolio-menu').forEach(function (menu) {
+      menu.addEventListener('click', function (e) {
+        var button = e.target.closest && e.target.closest('button');
+        if (!button || !menu.contains(button)) return;
+        UI.isotope('.grid', { filter: button.getAttribute('data-filter') });
+      });
     });
 
     //for menu active class
-    $('.portfolio-menu button').on('click', function (event) {
-      $(this).siblings('.active').removeClass('active');
-      $(this).addClass('active');
-      event.preventDefault();
+    UI.toElements('.portfolio-menu button').forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        Array.prototype.forEach.call(button.parentNode.children, function (sibling) {
+          if (sibling !== button) sibling.classList.remove('active');
+        });
+        button.classList.add('active');
+        event.preventDefault();
+      });
     });
 
     // wow js
-    ColorlibUI.reveal('.wow');
+    UI.reveal('.wow');
 
-    // counter 
-    ColorlibUI.counter('.counter', { time: 10000 });
+    // counter
+    UI.counter('.counter', { time: 10000 });
 
     /* magnificPopup img view */
-    $('.popup-image').magnificPopup({
+    UI.magnific('.popup-image', {
       type: 'image',
       gallery: {
         enabled: true
@@ -106,7 +222,7 @@
     });
 
     /* magnificPopup img view */
-    $('.img-pop-up').magnificPopup({
+    UI.magnific('.img-pop-up', {
       type: 'image',
       gallery: {
         enabled: true
@@ -114,13 +230,12 @@
     });
 
     /* magnificPopup video view */
-    $('.popup-video').magnificPopup({
+    UI.magnific('.popup-video', {
       type: 'iframe'
     });
 
-
     // scrollIt for smoth scroll
-    $.scrollIt({
+    scrollIt({
       upKey: 38,             // key code to navigate to the next section
       downKey: 40,           // key code to navigate to the previous section
       easing: 'linear',      // the easing function for animation
@@ -131,7 +246,7 @@
     });
 
     // scrollup bottom to top
-    $.scrollUp({
+    UI.scrollUp({
       scrollName: 'scrollUp', // Element ID
       topDistance: '4500', // Distance from top before showing element (px)
       topSpeed: 300, // Speed back to top (ms)
@@ -139,14 +254,13 @@
       animationInSpeed: 200, // Animation in speed (ms)
       animationOutSpeed: 200, // Animation out speed (ms)
       scrollText: '<i class="fa-solid fa-angle-double-up"></i>', // Text for element
-      activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+      activeOverlay: false // Set CSS color to display scrollUp active point, e.g '#00FFFF'
     });
-
 
     // blog-page
 
     //brand-active
-    $('.brand-active').owlCarousel({
+    UI.owl('.brand-active', {
       loop: true,
       margin: 30,
       items: 1,
@@ -159,7 +273,6 @@
         0: {
           items: 1,
           nav: false
-
         },
         767: {
           items: 4
@@ -173,7 +286,7 @@
     // blog-dtails-page
 
     //project-active
-    $('.project-active').owlCarousel({
+    UI.owl('.project-active', {
       loop: true,
       margin: 30,
       items: 1,
@@ -187,7 +300,6 @@
         0: {
           items: 1,
           nav: false
-
         },
         767: {
           items: 1,
@@ -198,20 +310,20 @@
           nav: false
         },
         1200: {
-          items: 1,
+          items: 1
         },
         1501: {
-          items: 2,
+          items: 2
         }
       }
     });
 
     if (document.getElementById('default-select')) {
-      ColorlibUI.enhanceSelects('select');
+      UI.enhanceSelects('select');
     }
 
     //about-pro-active
-    $('.details_active').owlCarousel({
+    UI.owl('.details_active', {
       loop: true,
       margin: 0,
       items: 1,
@@ -225,7 +337,6 @@
         0: {
           items: 1,
           nav: false
-
         },
         767: {
           items: 1,
@@ -236,16 +347,13 @@
           nav: false
         },
         1200: {
-          items: 1,
+          items: 1
         }
       }
     });
 
-  });
-
-  // resitration_Form
-  $(document).ready(function () {
-    $('.popup-with-form').magnificPopup({
+    // resitration_Form
+    UI.magnific('.popup-with-form', {
       type: 'inline',
       preloader: false,
       focus: '#name',
@@ -254,7 +362,7 @@
       // It looks not nice, so we disable it:
       callbacks: {
         beforeOpen: function () {
-          if ($(window).width() < 700) {
+          if (document.documentElement.clientWidth < 700) {
             this.st.focus = false;
           } else {
             this.st.focus = '#name';
@@ -262,11 +370,9 @@
         }
       }
     });
-  });
 
-  // resitration_Form
-  $(document).ready(function () {
-    $('.dont-hav-acc').magnificPopup({
+    // resitration_Form
+    UI.magnific('.dont-hav-acc', {
       type: 'inline',
       preloader: false,
       focus: '#name',
@@ -275,7 +381,7 @@
       // It looks not nice, so we disable it:
       callbacks: {
         beforeOpen: function () {
-          if ($(window).width() < 700) {
+          if (document.documentElement.clientWidth < 700) {
             this.st.focus = false;
           } else {
             this.st.focus = '#name';
@@ -283,141 +389,127 @@
         }
       }
     });
-  });
 
+    /* 1. Visualizing things on Hover - See next part for action on click */
+    UI.toElements('#stars li').forEach(function (li) {
+      li.addEventListener('mouseover', function () {
+        var onStar = parseInt(li.getAttribute('data-value'), 10); // The star currently mouse on
 
+        // Now highlight all the stars that's not after the current hovered star
+        siblingStars(li).forEach(function (star, e) {
+          star.classList.toggle('hover', e < onStar);
+        });
+      });
+      li.addEventListener('mouseout', function () {
+        siblingStars(li).forEach(function (star) {
+          star.classList.remove('hover');
+        });
+      });
 
-  //------- Mailchimp js --------//  
-  function mailChimp() {
-    $('#mc_embed_signup').find('form').ajaxChimp();
+      /* 2. Action to perform on click */
+      li.addEventListener('click', function () {
+        var onStar = parseInt(li.getAttribute('data-value'), 10); // The star currently selected
+        var stars = siblingStars(li);
+        var i = 0;
+        for (i = 0; i < stars.length; i++) {
+          stars[i].classList.remove('selected');
+        }
+
+        for (i = 0; i < onStar; i++) {
+          if (stars[i]) stars[i].classList.add('selected');
+        }
+
+        // JUST RESPONSE (Not needed)
+        var selected = UI.toElements('#stars li.selected');
+        var last = selected[selected.length - 1];
+        var ratingValue = parseInt(last ? last.getAttribute('data-value') : '', 10);
+        var input = document.getElementById('ratingvalue');
+        if (input) input.value = ratingValue;
+        var msg = '';
+        if (ratingValue == 1) {
+          msg = 'Poor';
+        }
+        else if (ratingValue == 2) {
+          msg = 'Fair';
+        }
+        else if (ratingValue == 3) {
+          msg = 'Good';
+        }
+        else if (ratingValue == 4) {
+          msg = 'Excellent';
+        }
+        else if (ratingValue == 5) {
+          msg = 'Outstanding';
+        }
+        responseMessage(msg);
+      });
+    });
   }
-  mailChimp();
 
+  // jQuery 3 ran ready handlers asynchronously, after the companion plugin's
+  // own start-up code, so the companion's scroll-to-top and counter settings
+  // won over the ones above. The timeout keeps that order.
+  UI.ready(function () {
+    window.setTimeout(init, 0);
+  });
 
+  //------- Mailchimp js --------//
+  UI.ajaxChimp('#mc_embed_signup form');
 
   // Search Toggle
-  $("#search_input_box").hide();
-  $("#search").on("click", function () {
-    $("#search_input_box").slideToggle();
-    $("#search_input").focus();
+  UI.ready(function () {
+    var box = document.getElementById('search_input_box');
+    if (box) box.style.display = 'none';
+    function toggleSearch() {
+      if (box) UI.slide(box, 'toggle');
+      var input = document.getElementById('search_input');
+      if (input) input.focus();
+    }
+    ['search', 'search_1'].forEach(function (id) {
+      var button = document.getElementById(id);
+      if (button) button.addEventListener('click', toggleSearch);
+    });
+    var close = document.getElementById('close_search');
+    if (close && box) {
+      close.addEventListener('click', function () {
+        UI.slide(box, 'up', 500);
+      });
+    }
   });
-  $("#close_search").on("click", function () {
-    $('#search_input_box').slideUp(500);
-  });
-  // Search Toggle
-  $("#search_input_box").hide();
-  $("#search_1").on("click", function () {
-    $("#search_input_box").slideToggle();
-    $("#search_input").focus();
-  });
-
-
 
   /*----------------------------------------------------*/
   /* Course Star Review
   /*----------------------------------------------------*/
 
-  $('#reviw_submit').on('submit', function () {
+  UI.ready(function () {
+    var form = document.getElementById('reviw_submit');
+    if (!form) return;
+    form.addEventListener('submit', function (event) {
+      var feedback = valueOf('feedback');
+      var ratingValue = valueOf('ratingvalue');
 
-    var feedback = $('#feedback').val();
-    var ratingValue = $('#ratingvalue').val();
+      if (feedback == '' || ratingValue == '') {
+        // The form is still submitted normally after this, as it always was.
+        alert('You must select Star and Write a Review!');
+      } else {
+        event.preventDefault();
+        var url = valueOf('reviewajax');
+        var userdata = serialize(form);
 
-    if (feedback == '' || ratingValue == '') {
-      alert('You must select Star and Write a Review!');
-    } else {
-      var $url = $('#reviewajax').val();
-      var userdata = $(this).serialize();
-
-      $.ajax({
-        type: 'post',
-        url: $url,
-        data: {
-          action: 'course_star_review',
-          userdata: userdata
-        },
-        success: function (res) {
+        UI.request(url, {
+          method: 'POST',
+          data: {
+            action: 'course_star_review',
+            userdata: userdata
+          }
+        }).then(function (res) {
           if (res != 'Error') {
             location.reload();
           } else {
             alert('You must be login user');
           }
-        }
-      })
-
-      return false;
-    }
-
-  });
-
-
-
-  $(document).ready(function () {
-
-    /* 1. Visualizing things on Hover - See next part for action on click */
-    $('#stars li').on('mouseover', function () {
-      var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
-
-      // Now highlight all the stars that's not after the current hovered star
-      $(this).parent().children('li.star').each(function (e) {
-        if (e < onStar) {
-          $(this).addClass('hover');
-        }
-        else {
-          $(this).removeClass('hover');
-        }
-      });
-
-    }).on('mouseout', function () {
-      $(this).parent().children('li.star').each(function (e) {
-        $(this).removeClass('hover');
-      });
+        });
+      }
     });
-
-
-    /* 2. Action to perform on click */
-    $('#stars li').on('click', function () {
-      var onStar = parseInt($(this).data('value'), 10); // The star currently selected
-      var stars = $(this).parent().children('li.star');
-      var i = 0;
-      for (i = 0; i < stars.length; i++) {
-        $(stars[i]).removeClass('selected');
-      }
-
-      for (i = 0; i < onStar; i++) {
-        $(stars[i]).addClass('selected');
-      }
-
-      // JUST RESPONSE (Not needed)
-      var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
-      document.getElementById("ratingvalue").value = ratingValue;
-      var msg = "";
-      if (ratingValue == 1) {
-        msg = "Poor";
-      }
-      else if (ratingValue == 2) {
-        msg = "Fair";
-      }
-      else if (ratingValue == 3) {
-        msg = "Good";
-      }
-      else if (ratingValue == 4) {
-        msg = "Excellent";
-      }
-      else if (ratingValue == 5) {
-        msg = "Outstanding";
-      }
-      responseMessage(msg);
-
-    });
-
-
   });
-
-
-  function responseMessage(msg) {
-    $('.success-box').fadeIn(200);
-    $('.success-box div.text-message').html("<span>" + msg + "</span>");
-  }
-
-
-})(jQuery);
+}());
